@@ -17,9 +17,10 @@ DECLARE
 user_name varchar2;
 CURSOR c2 (relation varchar2)
 IS
+select user_name from User where user_name in (
 SELECT *
-FROM User U FULL OUTER Join receivers Rec ON Rec.user_email_author_fk = U.user_email or Rec.user_email_reciver_fk = U.user_email
-WHERE Rec.message_date is None;
+FROM Relations Rel join Receivers Rec on Rel.user1_email_fk = Rec.user_email_author_fk or Rel.user1_email_fk = Rec.user_email_reciever_fk or Rel.user2_email_fk = Rec.user_email_author_fk or Rel.user2_email_fk = Rec.user_email_reciever_fk
+WHERE Rec.message_date is None and Rel.relation_type = relation);
 
 
 
