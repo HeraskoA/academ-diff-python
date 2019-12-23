@@ -1,0 +1,25 @@
+--Task3--
+CREATE or REPLACE TRIGGER receivers_delete 
+BEFORE DELETE ON Message 
+FOR EACH ROW
+BEGIN 
+delete from receivers where message_date_fk = old.order_id;
+END;
+
+--Task5--
+CREATE OR REPLACE PROCEDURE changeRelationType(first_user IN varchar2, second_user IN varchar2, relation_type IN varchar2) IS 
+BEGIN
+   update table Relations set relation_type = relation_type where user1_email_fk = first_user and user2_email_fk = second_user;
+END;
+
+--Task6--
+DECLARE
+user_name varchar2;
+CURSOR c2 (relation varchar2)
+IS
+SELECT *
+FROM User U FULL OUTER Join receivers Rec ON Rec.user_email_author_fk = U.user_email or Rec.user_email_reciver_fk = U.user_email
+WHERE Rec.message_date is None;
+
+
+
